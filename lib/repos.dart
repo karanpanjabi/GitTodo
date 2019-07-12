@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:git_todo/ghsingleton.dart';
+import 'package:git_todo/singletons/ghsingleton.dart';
 import 'package:github/server.dart';
 
 class ReposScreen extends StatefulWidget {

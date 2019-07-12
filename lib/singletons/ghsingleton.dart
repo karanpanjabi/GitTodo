@@ -9,6 +9,6 @@ class GHSingleton {
   }
 
   GHSingleton._internal() {
-    github = createGitHubClient(auth: Authentication.withToken("--YOUR TOKEN HERE--"));
+    github = createGitHubClient(auth: Authentication.withToken("3a64ce7364037911de1e52f4f9b584c6c48e6100"));
   }
 }
