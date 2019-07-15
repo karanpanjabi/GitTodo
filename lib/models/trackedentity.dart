@@ -1,25 +1,32 @@
 
 import 'package:git_todo/models/todoentity.dart';
+import 'package:github/server.dart';
 
 class TrackedEntity {
-  String url;
-  List<TodoEntity> todoList;
+  String urlSlug;
+  String path;
+  List<TodoEntity> todoList = [];
 
   TrackedEntity.fromJson(Map<String, dynamic> json) {
-    this.url = json['url'];
+    this.urlSlug = json['urlslug'];
+    this.path = json['path'];
     for(Map<String, dynamic> todo in json['todolist']) {
-      todoList.add(TodoEntity.fromJson(todo));
+      this.todoList.add(TodoEntity.fromJson(todo));
     }
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'url': this.url,
-      'todolist': this.todoList
+      'urlslug': this.urlSlug,
+      'path': this.path,
+      'todolist': todoList.map(
+        (TodoEntity ent) => ent.toJson()
+      ).toList()
     };
   }
 
-  void update() {
+  Future<void> update(GitHub github) async {
+    //fetch all todos from the url resource and repopulate todoList
     
   }
 }

@@ -1,18 +1,18 @@
 class TodoEntity {
-  String filename;
+  String filepath;
   int linenum;
   String info;
 
-  TodoEntity(this.filename, this.linenum, this.info);
+  TodoEntity(this.filepath, this.linenum, this.info);
 
   TodoEntity.fromJson(Map<String, dynamic> json)
-    : filename = json['filename'],
+    : filepath = json['filepath'],
       linenum = json['linenum'],
       info = json['info'];
 
   Map<String, dynamic> toJson() =>
     {
-      'filename': filename,
+      'filename': filepath,
       'linenum': linenum,
       'info': info
     };
