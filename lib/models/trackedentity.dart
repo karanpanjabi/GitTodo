@@ -2,6 +2,8 @@
 import 'package:git_todo/models/todoentity.dart';
 import 'package:github/server.dart';
 
+import 'package:git_todo/utils/githubutil.dart';
+
 class TrackedEntity {
   String urlSlug;
   String path;
@@ -25,8 +27,13 @@ class TrackedEntity {
     };
   }
 
+  TrackedEntity(String urlSlug, String path) {
+    this.urlSlug = urlSlug;
+    this.path = path;
+  }
+
   Future<void> update(GitHub github) async {
     //fetch all todos from the url resource and repopulate todoList
-    
+    todoList = await GithubUtil.getTodoEntities(github, this.urlSlug, this.path);
   }
 }

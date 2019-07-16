@@ -8,7 +8,7 @@ void main() {
 
   test("Utils", () async {
     GitHub github = GHSingleton().github;
-    List<TodoEntity> todos = await GithubUtil.getTodoEntities(github, "karanpanjabi/GitTodoTest", "/");
+    List<TodoEntity> todos = await GithubUtil.getTodoEntities(github, "karanpanjabi/GitTodoTest", "/todofile.py");
     print(todos.toString());
   });
 }
