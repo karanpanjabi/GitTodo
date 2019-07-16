@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:git_todo/repos.dart';
+import 'package:git_todo/routes/repos.dart';
 import 'package:git_todo/splash.dart';
 
 void main() => runApp(MyApp());

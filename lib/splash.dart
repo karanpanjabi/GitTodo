@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:git_todo/singletons/ghsingleton.dart';
+import 'package:git_todo/singletons/trackedentities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,10 +27,17 @@ class _SplashScreenState extends State<SplashScreen> {
     if (tok == "Not found") {
       prefs.setString("UserToken", "660b8770b881fc9754148ff823d0f989ac231821");
     }
-    new Timer(Duration(seconds: 3), _onDone);
-    // else {
-    //   print('test');
-    // }
+    await _initializeSingletons();
+    new Timer(Duration(seconds: 1), _onDone);
+  
+
+  }
+
+  _initializeSingletons() async {
+    GHSingleton();
+
+    TrackedEntities();
+    await TrackedEntities().initEntities();
   }
 
   void _onDone() {

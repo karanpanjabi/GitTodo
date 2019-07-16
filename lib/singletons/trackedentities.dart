@@ -10,7 +10,7 @@ import 'package:github/server.dart';
 
 class TrackedEntities {
   static final TrackedEntities _singleton = TrackedEntities._internal();
-  List<TrackedEntity> t_list;
+  List<TrackedEntity> tList;
   Database _db;
 
   factory TrackedEntities() {
@@ -18,12 +18,12 @@ class TrackedEntities {
   }
 
   TrackedEntities._internal() {
-    t_list = [];
+    tList = [];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'userdata': t_list.map(
+      'userdata': tList.map(
         (TrackedEntity ent) => ent.toJson()
       ).toList()
     };
@@ -34,22 +34,33 @@ class TrackedEntities {
     Directory dir = await getApplicationDocumentsDirectory();
     String dbPath = '${dir.path}/userdb.db';
     _db = await createDatabaseFactoryIo().openDatabase(dbPath);
+    var jsondata = await _db.get("userdata");
+    if(jsondata == null) return;
+    print(jsondata);
+    jsondata = jsondata['userdata'];
 
-    List<dynamic> dbData = jsonDecode(await _db.get("userdata"));
-    for (var item in dbData) {
-      t_list.add(TrackedEntity.fromJson(item));
+    // List<dynamic> dbData = jsonDecode(jsondata);
+    for (var item in jsondata) {
+      tList.add(TrackedEntity.fromJson(item));
     }
   }
 
   addEntity(TrackedEntity ent) {
-    t_list.add(ent);
+    tList.add(ent);
+    updateDB();
+  }
+
+  removeEntity(TrackedEntity ent) {
+    tList.removeWhere((TrackedEntity inList) {
+      return inList.urlSlug == ent.urlSlug && inList.path == ent.path;
+    });
     updateDB();
   }
 
   //go through every entity in the list and update them
   Future<void> update(GitHub github) async {
     var futlist = <Future>[];
-    for (TrackedEntity ent in t_list) {
+    for (TrackedEntity ent in tList) {
       futlist.add(ent.update(github));
     }
     await Future.wait(futlist);
@@ -59,6 +70,15 @@ class TrackedEntities {
   }
 
   Future<void> updateDB() async {
-    await _db.put('userdata', this.toJson());
+    var key = await _db.put(this.toJson(), 'userdata');
+  }
+
+  bool isBeingTracked(String repo) {
+    for(TrackedEntity ent in tList) {
+      if(ent.urlSlug == repo) {
+        return true;
+      }
+    }
+    return false;
   }
 }
