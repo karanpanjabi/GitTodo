@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:git_todo/models/trackedentity.dart';
+import 'package:git_todo/routes/todos.dart';
 import 'package:git_todo/singletons/ghsingleton.dart';
 import 'package:git_todo/singletons/trackedentities.dart';
 import 'package:github/server.dart';
@@ -38,6 +39,12 @@ class _ReposScreenState extends State<ReposScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Repositories"),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => TodoScreen()));
+          },
         ),
         body: ListView.separated(
           itemCount: repos.length,
@@ -92,8 +99,7 @@ class _RepoListItemState extends State<RepoListItemWidget> {
                 TrackedEntities().addEntity(
                     TrackedEntity(this.widget.repo.slug().fullName, "/"));
                 print("Creating entity for ${this.widget.repo.name}");
-              }
-              else {
+              } else {
                 //remove trackingentity for the repo
                 TrackedEntities().removeEntity(
                     TrackedEntity(this.widget.repo.slug().fullName, "/"));

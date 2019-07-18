@@ -12,7 +12,7 @@ class TodoEntity {
 
   Map<String, dynamic> toJson() =>
     {
-      'filename': filepath,
+      'filepath': filepath,
       'linenum': linenum,
       'info': info
     };
