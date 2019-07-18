@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:git_todo/models/trackedentity.dart';
+import 'package:git_todo/navdrawer.dart';
 import 'package:git_todo/routes/todos.dart';
 import 'package:git_todo/singletons/ghsingleton.dart';
 import 'package:git_todo/singletons/trackedentities.dart';
@@ -40,12 +41,7 @@ class _ReposScreenState extends State<ReposScreen> {
         appBar: AppBar(
           title: Text("Repositories"),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => TodoScreen()));
-          },
-        ),
+        drawer: NavDrawer.getDrawer(context),
         body: ListView.separated(
           itemCount: repos.length,
           itemBuilder: (BuildContext context, int i) {
